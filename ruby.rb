@@ -3,10 +3,22 @@
 # 3. If colour in right place = O if right colour wrong place X
 # 4. If person guesses color = win 
 # 5. 12 turns 
+module Game
 
+    def check_win
+        if @@comp_selection[0] == "yellow"
+            puts "WOO!"
+        end 
+
+    end 
+
+
+end 
 
 class Computer
-
+    
+    include Game
+    
     def initialize
         @@comp_selection = Array.new()
     end 
@@ -14,9 +26,9 @@ class Computer
     def random_selection
         @rand_num = rand 0..5
         @colour_options = ["Red", "Blue", "Yellow", "Orange", "Purple", "Green"]
-        @rand_colour = colour_options[@rand_num]
-        puts rand_colour
-        @@comp_selection << rand_colour
+        @rand_colour = @colour_options[@rand_num]
+        puts @rand_colour
+        @@comp_selection << @rand_colour
     end 
 
     def comp_choice
@@ -25,13 +37,17 @@ class Computer
         random_selection()
         random_selection()
         p @@comp_selection
-        @@comp_selection
+        @@comp_selection = ["yellow", "yellow", "yellow", "yellow"]
+        p @@comp_selection
+
     end 
 
 end 
 
 
 class Player 
+    
+    include Game
 
     def player_selection
         puts "Guess a combination of 4 colours (Red, Blue, Yellow, Orange, Purple, Green) 
@@ -46,18 +62,12 @@ For example: red blue green orange"
 
 end 
 
-class Game
 
-    def check_selection
-
-
-    end 
-
-
-end 
 
 
 computer = Computer.new()
 computer.comp_choice
 player = Player.new()
 player.player_selection()
+game = Game.new()
+player.check_win()
