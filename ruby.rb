@@ -12,9 +12,9 @@ class Computer
     end 
 
     def random_selection
-        rand_num = rand 0..5
-        colour_options = ["Red", "Blue", "Yellow", "Orange", "Purple", "Green"]
-        rand_colour = colour_options[rand_num]
+        @rand_num = rand 0..5
+        @colour_options = ["Red", "Blue", "Yellow", "Orange", "Purple", "Green"]
+        @rand_colour = colour_options[@rand_num]
         puts rand_colour
         @@comp_selection << rand_colour
     end 
@@ -37,10 +37,10 @@ class Player
         puts "Guess a combination of 4 colours (Red, Blue, Yellow, Orange, Purple, Green) 
 with each colour separated by a space. 
 For example: red blue green orange"
-        player_selection = gets.chomp 
-        player_selection = player_selection.split(" ")
-        p player_selection
-        player_selection
+        @player_selection = gets.chomp 
+        @player_selection = player_selection.split(" ")
+        p @player_selection
+        @player_selection
     end 
         
 
