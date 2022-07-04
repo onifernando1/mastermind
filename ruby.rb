@@ -7,12 +7,25 @@
 
 class Computer
 
+    def initialize
+        @@comp_selection = Array.new()
+    end 
+
     def random_selection
         rand_num = rand 0..5
         colour_options = ["Red", "Blue", "Yellow", "Orange", "Purple", "Green"]
         rand_colour = colour_options[rand_num]
         puts rand_colour
-        rand_colour
+        @@comp_selection << rand_colour
+    end 
+
+    def comp_choice
+        random_selection()
+        random_selection()
+        random_selection()
+        random_selection()
+        p @@comp_selection
+        @@comp_selection
     end 
 
 end 
@@ -37,7 +50,7 @@ class Game
 
     def check_selection
 
-        
+
     end 
 
 
@@ -45,6 +58,6 @@ end
 
 
 computer = Computer.new()
-computer.random_selection
+computer.comp_choice
 player = Player.new()
 player.player_selection()
