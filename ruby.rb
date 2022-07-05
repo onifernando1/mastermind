@@ -6,15 +6,19 @@
 
 class Game 
 
-    attr_accessor :comp_selection
+    # attr_accessor :comp_selection
 
-    def initialize(comp_selection)
-        @player = Player.new
+    def initialize(comp_selection, player_selection)
         @comp_selection = comp_selection
+        @player_selection = player_selection
+        p @comp_selection
+        p @player_selection
     end 
 
-    def comp_reveal
-        puts "#{@comp_selection} from comp reveal"
+    def check_win
+        if @comp_selection == @player_selection
+            puts "You win!"
+        end 
     end 
 
 
@@ -23,7 +27,7 @@ end
 
 class Computer 
 
-    attr_accessor :comp_selection
+    # attr_accessor :comp_selection
 
     def initialize
         @@comp_selection = Array.new()
@@ -36,6 +40,7 @@ class Computer
             @rand_num = rand 0..5
             @colour_options = ["Red", "Blue", "Yellow", "Orange", "Purple", "Green"]
             @@comp_selection << @colour_options[@rand_num]
+            p @@comp_selection
             i += 1 
          
         end 
@@ -66,5 +71,9 @@ For example: red blue green orange"
 end 
 
 computer = Computer.new()
-game = Game.new(computer.random_selection)
-game.comp_reveal
+comp_selection = computer.random_selection
+player = Player.new()
+player.player_input()
+player_choice = player.player_choice()
+game = Game.new(comp_selection, player_choice)
+game.check_win
