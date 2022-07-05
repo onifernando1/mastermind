@@ -15,6 +15,7 @@ class Game
     p @comp_selection
     p @player_selection
     @game_running = true
+    @board = []
   end
 
   def check_win
@@ -25,10 +26,32 @@ class Game
   end
 
   def check_colours
-    @player_selection.each do |colour|
-      puts "#{colour} colour right!" if @comp_selection.include? colour
-    end
+    # @player_selection.each do |colour|
+    #   @board << "O" if @comp_selection.include? colour &&
+    # end 
+    if @player_selection[0] == @comp_selection[0]
+        @board << "O"
+    end 
+
+    if @player_selection[1] == @comp_selection[1]
+        @board << "O"
+    end 
+
+    if @player_selection[2] == @comp_selection[2]
+        @board << "O"
+    end 
+
+    if @player_selection[3] == @comp_selection[3]
+        @board << "O"
+    end 
+
+
+
   end
+
+  def display_board
+    p @board
+  end 
 end
 
 class Computer
@@ -76,3 +99,4 @@ player_choice = player.player_choice()
 game = Game.new(comp_selection, player_choice)
 game.check_win
 game.check_colours
+game.display_board
