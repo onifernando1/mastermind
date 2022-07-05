@@ -25,10 +25,12 @@ class Game
     end
   end
 
-  def check_colours
+  def check_position_and_colour
     # @player_selection.each do |colour|
     #   @board << "O" if @comp_selection.include? colour &&
     # end 
+
+    # Position and colour both correct
     if @player_selection[0] == @comp_selection[0]
         @board << "O"
     end 
@@ -45,6 +47,11 @@ class Game
         @board << "O"
     end 
 
+    #Only colour correct not position
+
+    @player_selection.each do |colour|
+        @board << "X" if @comp_selection.include? colour 
+      end 
 
 
   end
@@ -98,5 +105,5 @@ player.player_input
 player_choice = player.player_choice()
 game = Game.new(comp_selection, player_choice)
 game.check_win
-game.check_colours
+game.check_position_and_colour
 game.display_board
