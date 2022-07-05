@@ -42,7 +42,6 @@ class Computer
             @@comp_selection << @colour_options[@rand_num]
             p @@comp_selection
             i += 1 
-         
         end 
         
          @@comp_selection
@@ -64,7 +63,8 @@ For example: red blue green orange"
     def player_choice
         @@player_selection = @@player_selection.split(" ")
         p @@player_selection
-        @@player_selection
+        @@player_selection = @@player_selection.map{|item| item.capitalize()}
+        @@player_selection 
     end 
         
 
