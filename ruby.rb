@@ -12,8 +12,8 @@ class Game
   def initialize(comp_selection, player_selection)
     @comp_selection = comp_selection
     @player_selection = player_selection
-    p "#{@comp_selection} from Game class "
-    p @player_selection
+    # p "#{@comp_selection} from Game class "
+    # p @player_selection
     @game_running = true
     @board = []
   end
@@ -42,6 +42,7 @@ class Game
 
   def display_board
     p @board
+    puts "\n" 
   end 
 
 end
@@ -59,7 +60,7 @@ class Computer
       @rand_num = rand 0..5
       @colour_options = %w[Red Blue Yellow Orange Purple Green]
       @comp_selection << @colour_options[@rand_num]
-      p @comp_selection
+      # p @comp_selection
       i += 1
     end
 
@@ -87,7 +88,7 @@ For example: Red Blue Green Orange"
 
   def player_choice
     @player_selection = @player_selection.split(' ')
-    p @player_selection
+    p "Player Selection:#{@player_selection}"
     @player_selection = @player_selection.map(&:capitalize)
     @player_selection
   end
