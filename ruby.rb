@@ -67,13 +67,12 @@ class Computer
   end
 end
 
-class Player
+class Player < Game
 
   attr_accessor :round
 
   def initialize 
     @round = 0
-   
   end 
 
 
@@ -92,17 +91,26 @@ For example: Red Blue Green Orange"
     @player_selection = @player_selection.map(&:capitalize)
     @player_selection
   end
+
+  def game_check
+    if game.game_running == false 
+      puts "ASDLJAKSDLKASJD"
+    end 
+  end 
 end
 
 computer = Computer.new
 comp_selection = computer.random_selection
 player = Player.new
 
-until player.round == 12 || game.game_running == false
+until player.round == 12 || 
   player.player_input
   player_choice = player.player_choice()
   game = Game.new(comp_selection, player_choice)
   game.check_win
   game.check_position_and_colour
   game.display_board
+  if game.game_running == false 
+    break
+  end 
 end 
