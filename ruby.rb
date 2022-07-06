@@ -12,7 +12,7 @@ class Game
   def initialize(comp_selection, player_selection)
     @comp_selection = comp_selection
     @player_selection = player_selection
-    p @comp_selection
+    p "#{@comp_selection} from Game class "
     p @player_selection
     @game_running = true
     @board = []
@@ -26,35 +26,19 @@ class Game
   end
 
   def check_position_and_colour
-    # @player_selection.each do |colour|
-    #   @board << "O" if @comp_selection.include? colour &&
-    # end 
-
-    # Position and colour both correct
-    if @player_selection[0] == @comp_selection[0]
+ 
+    @player_selection.each_index {|index| 
+      if @comp_selection[index] == @player_selection[index] 
         @board << "O"
-    end 
-
-    if @player_selection[1] == @comp_selection[1]
-        @board << "O"
-    end 
-
-    if @player_selection[2] == @comp_selection[2]
-        @board << "O"
-    end 
-
-    if @player_selection[3] == @comp_selection[3]
-        @board << "O"
-    end 
-
-    #Only colour correct not position
-
-    @player_selection.each do |colour|
-        @board << "X" if @comp_selection.include? colour 
+      elsif @player_selection.include? @comp_selection[index]
+        @board << "X" 
       end 
+    }
+
+  end 
+ 
 
 
-  end
 
   def display_board
     p @board
