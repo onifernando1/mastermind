@@ -7,7 +7,7 @@
 # 5. 12 turns
 
 class Game
-  # attr_accessor :comp_selection
+  attr_accessor :game_running
 
   def initialize(comp_selection, player_selection)
     @comp_selection = comp_selection
@@ -43,13 +43,14 @@ class Game
   def display_board
     p @board
   end 
+
 end
 
 class Computer
   # attr_accessor :comp_selection
 
   def initialize
-    @@comp_selection = []
+    @comp_selection = []
   end
 
   def random_selection
@@ -57,37 +58,51 @@ class Computer
     until i == 4
       @rand_num = rand 0..5
       @colour_options = %w[Red Blue Yellow Orange Purple Green]
-      @@comp_selection << @colour_options[@rand_num]
-      p @@comp_selection
+      @comp_selection << @colour_options[@rand_num]
+      p @comp_selection
       i += 1
     end
 
-    @@comp_selection
+    @comp_selection
   end
 end
 
 class Player
+
+  attr_accessor :round
+
+  def initialize 
+    @round = 0
+   
+  end 
+
+
   def player_input
     puts "Guess a combination of 4 colours (Red, Blue, Yellow, Orange, Purple, Green)
 with each colour separated by a space.
 For example: Red Blue Green Orange"
-    @@player_selection = gets.chomp
+    @player_selection = gets.chomp
+    @round += 1 
+    puts "round #{@round}"
   end
 
   def player_choice
-    @@player_selection = @@player_selection.split(' ')
-    p @@player_selection
-    @@player_selection = @@player_selection.map(&:capitalize)
-    @@player_selection
+    @player_selection = @player_selection.split(' ')
+    p @player_selection
+    @player_selection = @player_selection.map(&:capitalize)
+    @player_selection
   end
 end
 
 computer = Computer.new
 comp_selection = computer.random_selection
 player = Player.new
-player.player_input
-player_choice = player.player_choice()
-game = Game.new(comp_selection, player_choice)
-game.check_win
-game.check_position_and_colour
-game.display_board
+
+until player.round == 12 || game.game_running == false
+  player.player_input
+  player_choice = player.player_choice()
+  game = Game.new(comp_selection, player_choice)
+  game.check_win
+  game.check_position_and_colour
+  game.display_board
+end 
