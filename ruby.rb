@@ -1,17 +1,18 @@
-# frozen_string_literal: true
+# # frozen_string_literal: true
 
-# 1. computer randomly selects 4 numbers (linked to colours)
-# 2. ask the player to guess 4 colours
-# 3. If colour in right place = O if right colour wrong place X
-# 4. If person guesses color = win
-# 5. 12 turns
-# Note logic is wrong :
+# # 1. computer randomly selects 4 numbers (linked to colours)
+# # 2. ask the player to guess 4 colours
+# # 3. If colour in right place = O if right colour wrong place X
+# # 4. If person guesses color = win
+# # 5. 12 turns
+# # Note logic is wrong :
 
 class Game
   attr_accessor :game_running
 
-  def initialize(comp_selection, player_selection)
+  def initialize(comp_selection, player_selection, duplicate)
     @comp_selection = comp_selection
+    @duplicate = duplicate
     @player_selection = player_selection
     @game_running = true
     @board = []
@@ -24,15 +25,44 @@ class Game
     end
   end
 
+  # def check_position_and_colour
+    # @player_selection.each_index do |index|
+    #   if @comp_selection[index] == @player_selection[index]
+    #     @board << 'O'
+  #     elsif @comp_selection[index] == @player_selection[0] || @comp_selection[index] == @player_selection[1] ||@comp_selection[index] == @player_selection[2] ||@comp_selection[index] == @player_selection[3]
+  #       @board << "X"
+  #       # p @comp_selection 
+  #       # p index
+  #       # p @comp_selection[index]
+
+  #     end
+  #   end
+  # end
+
   def check_position_and_colour
     @player_selection.each_index do |index|
+      p "#{index} INDEX "
+      p "#{@comp_selection[index]} comp selection index"
+      p "#{@player_selection[index]} player selection index"
+
       if @comp_selection[index] == @player_selection[index]
+        p "#{index} same alert "
+        p "#{@comp_selection} original"
+        @duplicate.delete(@player_selection[index])
+        p "#{@duplicate} dupli dupli "
         @board << 'O'
-      elsif @player_selection[index] == @comp_selection[0] || @player_selection[index] == @comp_selection[1] ||@player_selection[index] == @comp_selection[2] ||@player_selection[index] == @comp_selection[3]
+      elsif @duplicate.include?(@player_selection[index])
         @board << "X"
-      end
-    end
-  end
+        @duplicate.delete(@player_selection[index])
+      end 
+# green green green red 
+# red red green red 
+    end 
+  end 
+
+
+
+
 
   def display_board
     p @board
@@ -56,6 +86,7 @@ class Computer
     p @comp_selection
     @comp_selection
   end
+
 end
 
 class Player
@@ -88,12 +119,15 @@ class RunLogic
   def initialize 
     computer = Computer.new
     comp_selection = computer.random_selection
+    duplicate = []
+    comp_selection.each {|colour| duplicate << colour}
+
     player = Player.new
 
     until player.round == 12
       player.player_input
       player_choice = player.player_choice()
-      game = Game.new(comp_selection, player_choice)
+      game = Game.new(comp_selection, player_choice, duplicate)
       game.check_win
       game.check_position_and_colour
       game.display_board
@@ -103,3 +137,5 @@ class RunLogic
 end
 
 RunLogic.new
+
+
