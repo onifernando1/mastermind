@@ -91,15 +91,35 @@ If colour in right place, you get O. If it is the right colour, but wrong place 
     @player_selection = gets.chomp
     @round += 1
     puts "round #{@round}"
+    @player_selection
   end
 
-  def player_choice
+  def player_choice(player_selection)
+    @player_selection = player_selection
     @player_selection = @player_selection.split(' ')
     puts "Player Selection:#{@player_selection}"
     @player_selection = @player_selection.map(&:capitalize)
     @player_selection
   end
+
+  def player_code
+    puts "Select a code for the computer to guess. Write a combination of 4 colours (Red, Blue, Yellow, Orange, Purple, Green)
+    with each colour separated by a space. For example: Red Blue Yellow Orange"
+    @player_code = gets.chomp
+    @player_selection = @player_code
+    # @player_selection = @player_selection.split(' ')
+    # puts "Player Selection:#{@player_selection}"
+    # @player_selection = @player_selection.map(&:capitalize)
+    # @player_selection
+    
+
+  end 
+
+
+
+
 end
+
 
 class RunLogic
   
@@ -127,23 +147,37 @@ class RunLogic
 
   def round 
 
-    until @player.round == 12
-      @duplicate = []
-      @comp_selection.each {|colour| @duplicate << colour}
-      @player.player_input
-      @player_choice = @player.player_choice()
-      game = Game.new(@comp_selection, @player_choice, @duplicate)
-      game.check_win
-      game.check_position_and_colour
-      game.display_board
-      break if game.game_running == false
+    if @code_guesser == true 
+      until @player.round == 12
+        @duplicate = []
+        @comp_selection.each {|colour| @duplicate << colour}
+        player_selection = @player.player_input
+        @player_choice = @player.player_choice(player_selection)
+        game = Game.new(@comp_selection, @player_choice, @duplicate)
+        game.check_win
+        game.check_position_and_colour
+        game.display_board
+        break if game.game_running == false
+        end
+      end 
+    
+    
+    if @code_maker == true 
+      puts "Asd"
     end
+    
+    
   end 
 
 
-end
+  
+
+
+end 
+
 
 run = RunLogic.new
+run.select_mode
 run.round()
 
 
