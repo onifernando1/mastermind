@@ -15,6 +15,7 @@ class Game
     @player_selection = player_selection
     @game_running = true
     @board = []
+  
   end
 
   def check_win
@@ -23,6 +24,7 @@ class Game
       @game_running = false
     end
   end
+
 
 
   def check_position_and_colour
@@ -104,24 +106,44 @@ class RunLogic
   def initialize 
     computer = Computer.new
     @comp_selection = computer.random_selection
-    
+    @code_guesser = false 
+    @code_maker = false 
+    @player = Player.new
 
-    player = Player.new
+  
+  end
 
-    until player.round == 12
+  def select_mode
+    puts "Would you like to be the code maker or code guesser. Type maker/guesser"
+    @mode = gets.chomp
+    if @mode.downcase == "maker" 
+      @code_maker = true 
+      @code_guesser = false
+    elsif @mode.downcase == "guesser"
+      @code_maker = false 
+      @code_guesser = true 
+    end 
+  end 
+
+  def round 
+
+    until @player.round == 12
       @duplicate = []
       @comp_selection.each {|colour| @duplicate << colour}
-      player.player_input
-      player_choice = player.player_choice()
-      game = Game.new(@comp_selection, player_choice, @duplicate)
+      @player.player_input
+      @player_choice = @player.player_choice()
+      game = Game.new(@comp_selection, @player_choice, @duplicate)
       game.check_win
       game.check_position_and_colour
       game.display_board
       break if game.game_running == false
     end
   end 
+
+
 end
 
-RunLogic.new
+run = RunLogic.new
+run.round()
 
 
