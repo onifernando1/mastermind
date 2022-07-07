@@ -106,11 +106,8 @@ If colour in right place, you get O. If it is the right colour, but wrong place 
     puts "Select a code for the computer to guess. Write a combination of 4 colours (Red, Blue, Yellow, Orange, Purple, Green)
     with each colour separated by a space. For example: Red Blue Yellow Orange"
     @player_code = gets.chomp
-    @player_selection = @player_code
-    # @player_selection = @player_selection.split(' ')
-    # puts "Player Selection:#{@player_selection}"
-    # @player_selection = @player_selection.map(&:capitalize)
-    # @player_selection
+    puts "#{player_choice(@player_code)}"
+
     
 
   end 
