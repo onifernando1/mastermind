@@ -74,6 +74,9 @@ class Computer
     @comp_selection
   end
 
+  def guess_code
+    @comp_guess = ["Red", "Red", "Red", "Red"]
+  end 
 end
 
 class Player
@@ -104,9 +107,10 @@ If colour in right place, you get O. If it is the right colour, but wrong place 
 
   def player_code
     puts "Select a code for the computer to guess. Write a combination of 4 colours (Red, Blue, Yellow, Orange, Purple, Green)
-    with each colour separated by a space. For example: Red Blue Yellow Orange"
+with each colour separated by a space. For example: Red Blue Yellow Orange"
     @player_code = gets.chomp
     puts "#{player_choice(@player_code)}"
+    @player_code
 
     
 
@@ -121,8 +125,8 @@ end
 class RunLogic
   
   def initialize 
-    computer = Computer.new
-    @comp_selection = computer.random_selection
+    @computer = Computer.new
+    @comp_selection = @computer.random_selection
     @code_guesser = false 
     @code_maker = false 
     @player = Player.new
@@ -160,7 +164,16 @@ class RunLogic
     
     
     if @code_maker == true 
-      puts "Asd"
+      @duplicate = []
+      @player_selection = @player.player_code()
+      @player_selection = @player.player_choice(@player_selection)
+      @player_selection.each {|colour| @duplicate << colour}
+      @comp_selection = @computer.guess_code()
+      game = Game.new(@player_selection, @comp_selection, @duplicate) #reversed to get match as code maker 
+      game.check_win
+      game.check_position_and_colour
+      game.display_board
+
     end
     
     
