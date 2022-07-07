@@ -58,8 +58,12 @@ class Game
 end
 
 class Computer
+  attr_accessor :round
+
   def initialize
     @comp_selection = []
+    @round = 0 
+    
   end
 
   def random_selection
@@ -164,16 +168,19 @@ class RunLogic
     
     
     if @code_maker == true 
-      @duplicate = []
-      @player_selection = @player.player_code()
-      @player_selection = @player.player_choice(@player_selection)
-      @player_selection.each {|colour| @duplicate << colour}
-      @comp_selection = @computer.guess_code()
-      game = Game.new(@player_selection, @comp_selection, @duplicate) #reversed to get match as code maker 
-      game.check_win
-      game.check_position_and_colour
-      game.display_board
-
+      until @computer.round == 12 
+        @duplicate = []
+        @player_selection = @player.player_code()
+        @player_selection = @player.player_choice(@player_selection)
+        @player_selection.each {|colour| @duplicate << colour}
+        @comp_selection = @computer.guess_code()
+        game = Game.new(@player_selection, @comp_selection, @duplicate) #reversed to get match as code maker 
+        game.check_win
+        game.check_position_and_colour
+        game.display_board
+        break if game.game_running == false
+        end 
+      end 
     end
     
     
