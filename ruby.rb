@@ -5,7 +5,6 @@
 # # 3. If colour in right place = O if right colour wrong place X
 # # 4. If person guesses color = win
 # # 5. 12 turns
-# # Note logic is wrong :
 
 class Game
   attr_accessor :game_running
@@ -25,19 +24,6 @@ class Game
     end
   end
 
-  # def check_position_and_colour
-    # @player_selection.each_index do |index|
-    #   if @comp_selection[index] == @player_selection[index]
-    #     @board << 'O'
-  #     elsif @comp_selection[index] == @player_selection[0] || @comp_selection[index] == @player_selection[1] ||@comp_selection[index] == @player_selection[2] ||@comp_selection[index] == @player_selection[3]
-  #       @board << "X"
-  #       # p @comp_selection 
-  #       # p index
-  #       # p @comp_selection[index]
-
-  #     end
-  #   end
-  # end
 
   def check_position_and_colour
     @player_selection.each_index do |index|
@@ -55,8 +41,7 @@ class Game
         @board << "X"
         @duplicate.delete(@player_selection[index])
       end 
-# green green green red 
-# red red green red 
+
     end 
   end 
 
@@ -118,16 +103,17 @@ class RunLogic
   
   def initialize 
     computer = Computer.new
-    comp_selection = computer.random_selection
-    duplicate = []
-    comp_selection.each {|colour| duplicate << colour}
+    @comp_selection = computer.random_selection
+    
 
     player = Player.new
 
     until player.round == 12
+      @duplicate = []
+      @comp_selection.each {|colour| @duplicate << colour}
       player.player_input
       player_choice = player.player_choice()
-      game = Game.new(comp_selection, player_choice, duplicate)
+      game = Game.new(@comp_selection, player_choice, @duplicate)
       game.check_win
       game.check_position_and_colour
       game.display_board
