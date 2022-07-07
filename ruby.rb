@@ -27,15 +27,15 @@ class Game
 
   def check_position_and_colour
     @player_selection.each_index do |index|
-      p "#{index} INDEX "
-      p "#{@comp_selection[index]} comp selection index"
-      p "#{@player_selection[index]} player selection index"
+      # p "#{index} INDEX "
+      # p "#{@comp_selection[index]} comp selection index"
+      # p "#{@player_selection[index]} player selection index"
 
       if @comp_selection[index] == @player_selection[index]
-        p "#{index} same alert "
-        p "#{@comp_selection} original"
-        @duplicate.delete(@player_selection[index])
-        p "#{@duplicate} dupli dupli "
+        # p "#{index} same alert "
+        # p "#{@comp_selection} original"
+        # @duplicate.delete(@player_selection[index])
+        # p "#{@duplicate} dupli dupli "
         @board << 'O'
       elsif @duplicate.include?(@player_selection[index])
         @board << "X"
@@ -68,7 +68,7 @@ class Computer
       @comp_selection << @colour_options[@rand_num]
       i += 1
     end
-    p @comp_selection
+    # p @comp_selection
     @comp_selection
   end
 
