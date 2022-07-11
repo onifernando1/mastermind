@@ -152,10 +152,6 @@ class Computer
     @comp_guess
   end
 
-  # def guess_code
-  #   guess_algorithim()
-  # @round += 1
-  # end
 end
 
 class Player
@@ -205,10 +201,10 @@ class RunLogic
   def select_mode
     puts 'Would you like to be the code maker or code guesser. Type maker/guesser'
     @mode = gets.chomp
-    case @mode
-    when 'maker'
+    if  @mode == 'maker'
       @code_maker = true
-    when 'guesser'
+    end 
+    if @mode == 'guesser'
       @code_guesser = true
     end
   end
@@ -228,16 +224,16 @@ class RunLogic
       end
     end
 
-    if @code_maker == true
+    if @code_maker == false
       @duplicate = []
       @player_selection = @player.player_code
       @player_selection = @player.player_choice(@player_selection)
       @player_selection.each { |colour| @duplicate << colour }
-      @comp_selection = ["Red", "Red", "Red", "Red"]
+      # @comp_selection = ["Red", "Red", "Red", "Red"]
       until @computer.round == 12
         # @comp_selection = @computer.guess_code
+        @comp_selection = @computer.guess_algorithim
         game = Game.new(@player_selection, @comp_selection, @duplicate) # reversed to get match as code maker
-        @computer.guess_algorithim
         game.check_win
         game.check_position_and_colour
         game.display_board
