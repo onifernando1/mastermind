@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # # frozen_string_literal: true
 
 # # 1. computer randomly selects 4 numbers (linked to colours)
@@ -7,7 +9,7 @@
 # # 5. 12 turns
 
 class Game
-  attr_accessor :game_running
+  attr_accessor :game_running, :board
 
   def initialize(comp_selection, player_selection, duplicate)
     @comp_selection = comp_selection
@@ -15,7 +17,6 @@ class Game
     @player_selection = player_selection
     @game_running = true
     @board = []
-  
   end
 
   def check_win
@@ -24,8 +25,6 @@ class Game
       @game_running = false
     end
   end
-
-
 
   def check_position_and_colour
     @player_selection.each_index do |index|
@@ -40,16 +39,11 @@ class Game
         # p "#{@duplicate} dupli dupli "
         @board << 'O'
       elsif @duplicate.include?(@player_selection[index])
-        @board << "X"
+        @board << 'X'
         @duplicate.delete(@player_selection[index])
-      end 
-
-    end 
-  end 
-
-
-
-
+      end
+    end
+  end
 
   def display_board
     p @board
@@ -60,10 +54,11 @@ end
 class Computer
   attr_accessor :round
 
-  def initialize
+  def initialize()
     @comp_selection = []
-    @round = 0 
-    
+    @round = 0
+    @sum_of_circles = 0
+    @sum_of_xs = 0
   end
 
   def random_selection
@@ -78,9 +73,32 @@ class Computer
     @comp_selection
   end
 
-  def guess_code
-    @comp_guess = ["Red", "Red", "Red", "Red"]
-  end 
+  def sum_of_circles(board)
+    board.each_index do |index|
+      @sum_of_circles += 1 if board[index] == 'O'
+    end
+    puts @sum_of_circles
+    @sum_of_circles
+  end
+
+  def sum_of_xs(board)
+    board.each_index do |index|
+      @sum_of_xs += 1 if board[index] == 'O'
+    end
+    puts @sum_of_xs
+    @sum_of_circles
+  end
+
+  def guess_algorithim
+    @comp_guess = %w[Red Red Red Red]
+
+    @comp_guess = %w[Red Red Red Red] if @round.zero?
+  end
+
+  # def guess_code
+  #   guess_algorithim()
+  #   @round += 1
+  # end
 end
 
 class Player
@@ -113,49 +131,38 @@ If colour in right place, you get O. If it is the right colour, but wrong place 
     puts "Select a code for the computer to guess. Write a combination of 4 colours (Red, Blue, Yellow, Orange, Purple, Green)
 with each colour separated by a space. For example: Red Blue Yellow Orange"
     @player_code = gets.chomp
-    puts "#{player_choice(@player_code)}"
+    puts player_choice(@player_code).to_s
     @player_code
-
-    
-
-  end 
-
-
-
-
+  end
 end
 
-
 class RunLogic
-  
-  def initialize 
+  def initialize
     @computer = Computer.new
     @comp_selection = @computer.random_selection
-    @code_guesser = false 
-    @code_maker = false 
+    @code_guesser = false
+    @code_maker = false
     @player = Player.new
-
-  
   end
 
   def select_mode
-    puts "Would you like to be the code maker or code guesser. Type maker/guesser"
+    puts 'Would you like to be the code maker or code guesser. Type maker/guesser'
     @mode = gets.chomp
-    if @mode.downcase == "maker" 
-      @code_maker = true 
+    case @mode.downcase
+    when 'maker'
+      @code_maker = true
       @code_guesser = false
-    elsif @mode.downcase == "guesser"
-      @code_maker = false 
-      @code_guesser = true 
-    end 
-  end 
+    when 'guesser'
+      @code_maker = false
+      @code_guesser = true
+    end
+  end
 
-  def round 
-
-    if @code_guesser == true 
+  def round
+    if @code_guesser == true
       until @player.round == 12
         @duplicate = []
-        @comp_selection.each {|colour| @duplicate << colour}
+        @comp_selection.each { |colour| @duplicate << colour }
         player_selection = @player.player_input
         @player_choice = @player.player_choice(player_selection)
         game = Game.new(@comp_selection, @player_choice, @duplicate)
@@ -163,38 +170,29 @@ class RunLogic
         game.check_position_and_colour
         game.display_board
         break if game.game_running == false
-        end
-      end 
-    
-    
-    if @code_maker == true 
-      until @computer.round == 12 
+      end
+    end
+
+    if @code_maker == true
+      until @computer.round == 12
         @duplicate = []
-        @player_selection = @player.player_code()
+        @player_selection = @player.player_code
         @player_selection = @player.player_choice(@player_selection)
-        @player_selection.each {|colour| @duplicate << colour}
-        @comp_selection = @computer.guess_code()
-        game = Game.new(@player_selection, @comp_selection, @duplicate) #reversed to get match as code maker 
+        @player_selection.each { |colour| @duplicate << colour }
+        @comp_selection = @computer.guess_algorithim
+        # @comp_selection = @computer.guess_code
+        game = Game.new(@player_selection, @comp_selection, @duplicate) # reversed to get match as code maker
         game.check_win
         game.check_position_and_colour
         game.display_board
-        break if game.game_running == false
-        end 
-      end 
+        board = game.board
+        @computer.sum_of_circles(board)
+        # break if game.game_running == false
+      end
     end
-    
-    
-  end 
-
-
-  
-
-
-end 
-
+  end
+end
 
 run = RunLogic.new
 run.select_mode
-run.round()
-
-
+run.round
