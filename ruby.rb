@@ -123,8 +123,33 @@ class Computer
       @comp_guess[2] = @comp_guess[2]
       @comp_guess[3] = random_colour
     end
-    puts @comp_guess
+
+
+    case @sum_of_xs
+    when 0
+      @comp_guess[0] = @comp_guess[0]
+      @comp_guess[1] = @comp_guess[1]
+      @comp_guess[2] = @comp_guess[2]
+      @comp_guess[3] = @comp_guess[3]
+    when 1
+      @comp_guess[0] = @comp_guess[0]
+      @comp_guess[1] = @comp_guess[1]
+      @comp_guess[2] = @comp_guess[2]
+      @comp_guess[3] = @comp_guess[2]
+    when 2
+      @comp_guess[0] = @comp_guess[3]
+      @comp_guess[1] = @comp_guess[1]
+      @comp_guess[2] = @comp_guess[2]
+      @comp_guess[3] = @comp_guess[0]
+    when 3
+      @comp_guess[0] = @comp_guess[3]
+      @comp_guess[1] = @comp_guess[2]
+      @comp_guess[2] = @comp_guess[1]
+      @comp_guess[3] = @comp_guess[3]
+    end
+    p @comp_guess
     @round += 1
+    @comp_guess
   end
 
   # def guess_code
@@ -180,12 +205,10 @@ class RunLogic
   def select_mode
     puts 'Would you like to be the code maker or code guesser. Type maker/guesser'
     @mode = gets.chomp
-    case @mode.downcase
+    case @mode
     when 'maker'
       @code_maker = true
-      @code_guesser = false
     when 'guesser'
-      @code_maker = false
       @code_guesser = true
     end
   end
@@ -220,7 +243,7 @@ class RunLogic
         game.display_board
         board = game.board
         @computer.sum_of_circles(board)
-        # break if game.game_running == false
+        break if game.game_running == false
       end
     end
   end
