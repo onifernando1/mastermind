@@ -54,11 +54,12 @@ end
 class Computer
   attr_accessor :round
 
-  def initialize()
+  def initialize
     @comp_selection = []
     @round = 0
     @sum_of_circles = 0
     @sum_of_xs = 0
+    @comp_guess = %w[Red Red Red Red]
   end
 
   def random_colour
@@ -66,12 +67,12 @@ class Computer
     @colour_options = %w[Red Blue Yellow Orange Purple Green]
     @rand_colour = @colour_options[@rand_num]
     @rand_colour
-  end 
+  end
 
   def random_selection
     i = 0
     until i == 4
-      random_colour()
+      random_colour
       @comp_selection << @rand_colour
       i += 1
     end
@@ -98,19 +99,37 @@ class Computer
   end
 
   def guess_algorithim
-    @comp_guess = %w[Red Red Red Red]
-
     @comp_guess = %w[Red Red Red Red] if @round.zero?
 
-    # if sum_of_circles = 1 
-    #   @comp_guess[0] = "Red"
-    #   @comp_guess[1] = 
-    # end 
+    case @sum_of_circles
+    when 0
+      @comp_guess[0] = random_colour
+      @comp_guess[1] = random_colour
+      @comp_guess[2] = random_colour
+      @comp_guess[3] = random_colour
+    when 1
+      @comp_guess[0] = @comp_guess[0]
+      @comp_guess[1] = random_colour
+      @comp_guess[2] = random_colour
+      @comp_guess[3] = random_colour
+    when 2
+      @comp_guess[0] = @comp_guess[0]
+      @comp_guess[1] = @comp_guess[1]
+      @comp_guess[2] = random_colour
+      @comp_guess[3] = random_colour
+    when 3
+      @comp_guess[0] = @comp_guess[0]
+      @comp_guess[1] = @comp_guess[1]
+      @comp_guess[2] = @comp_guess[2]
+      @comp_guess[3] = random_colour
+    end
+    puts @comp_guess
+    @round += 1
   end
 
   # def guess_code
   #   guess_algorithim()
-  #   @round += 1
+  # @round += 1
   # end
 end
 
@@ -187,22 +206,20 @@ class RunLogic
     end
 
     if @code_maker == true
+      @duplicate = []
+      @player_selection = @player.player_code
+      @player_selection = @player.player_choice(@player_selection)
+      @player_selection.each { |colour| @duplicate << colour }
+      @comp_selection = ["Red", "Red", "Red", "Red"]
       until @computer.round == 12
-        @duplicate = []
-        @player_selection = @player.player_code
-        @player_selection = @player.player_choice(@player_selection)
-        @player_selection.each { |colour| @duplicate << colour }
-        @comp_selection = @computer.guess_algorithim
         # @comp_selection = @computer.guess_code
-        until @game_running == false || @computer.round == 12 
-          game = Game.new(@player_selection, @comp_selection, @duplicate) # reversed to get match as code maker
-          game.check_win
-          game.check_position_and_colour
-          game.display_board
-          board = game.board
-          @computer.sum_of_circles(board)
-          @comp_selection = @computer.guess_algorithim
-        end 
+        game = Game.new(@player_selection, @comp_selection, @duplicate) # reversed to get match as code maker
+        @computer.guess_algorithim
+        game.check_win
+        game.check_position_and_colour
+        game.display_board
+        board = game.board
+        @computer.sum_of_circles(board)
         # break if game.game_running == false
       end
     end
