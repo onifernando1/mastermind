@@ -61,12 +61,18 @@ class Computer
     @sum_of_xs = 0
   end
 
+  def random_colour
+    @rand_num = rand 0..5
+    @colour_options = %w[Red Blue Yellow Orange Purple Green]
+    @rand_colour = @colour_options[@rand_num]
+    @rand_colour
+  end 
+
   def random_selection
     i = 0
     until i == 4
-      @rand_num = rand 0..5
-      @colour_options = %w[Red Blue Yellow Orange Purple Green]
-      @comp_selection << @colour_options[@rand_num]
+      random_colour()
+      @comp_selection << @rand_colour
       i += 1
     end
     # p @comp_selection
@@ -74,6 +80,7 @@ class Computer
   end
 
   def sum_of_circles(board)
+    @sum_of_circles = 0
     board.each_index do |index|
       @sum_of_circles += 1 if board[index] == 'O'
     end
@@ -82,17 +89,23 @@ class Computer
   end
 
   def sum_of_xs(board)
+    @sum_of_xs = 0
     board.each_index do |index|
       @sum_of_xs += 1 if board[index] == 'O'
     end
     puts @sum_of_xs
-    @sum_of_circles
+    @sum_of_xs
   end
 
   def guess_algorithim
     @comp_guess = %w[Red Red Red Red]
 
     @comp_guess = %w[Red Red Red Red] if @round.zero?
+
+    # if sum_of_circles = 1 
+    #   @comp_guess[0] = "Red"
+    #   @comp_guess[1] = 
+    # end 
   end
 
   # def guess_code
@@ -181,12 +194,15 @@ class RunLogic
         @player_selection.each { |colour| @duplicate << colour }
         @comp_selection = @computer.guess_algorithim
         # @comp_selection = @computer.guess_code
-        game = Game.new(@player_selection, @comp_selection, @duplicate) # reversed to get match as code maker
-        game.check_win
-        game.check_position_and_colour
-        game.display_board
-        board = game.board
-        @computer.sum_of_circles(board)
+        until @game_running == false || @computer.round == 12 
+          game = Game.new(@player_selection, @comp_selection, @duplicate) # reversed to get match as code maker
+          game.check_win
+          game.check_position_and_colour
+          game.display_board
+          board = game.board
+          @computer.sum_of_circles(board)
+          @comp_selection = @computer.guess_algorithim
+        end 
         # break if game.game_running == false
       end
     end
