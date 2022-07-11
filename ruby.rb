@@ -21,22 +21,14 @@ class Game
 
   def check_win
     if @comp_selection == @player_selection
-      puts 'You win!'
+      puts 'Code breaker wins!'
       @game_running = false
     end
   end
 
   def check_position_and_colour
     @player_selection.each_index do |index|
-      # p "#{index} INDEX "
-      # p "#{@comp_selection[index]} comp selection index"
-      # p "#{@player_selection[index]} player selection index"
-
       if @comp_selection[index] == @player_selection[index]
-        # p "#{index} same alert "
-        # p "#{@comp_selection} original"
-        # @duplicate.delete(@player_selection[index])
-        # p "#{@duplicate} dupli dupli "
         @board << 'O'
       elsif @duplicate.include?(@player_selection[index])
         @board << 'X'
@@ -85,7 +77,6 @@ class Computer
     board.each_index do |index|
       @sum_of_circles += 1 if board[index] == 'O'
     end
-    puts @sum_of_circles
     @sum_of_circles
   end
 
@@ -94,7 +85,6 @@ class Computer
     board.each_index do |index|
       @sum_of_xs += 1 if board[index] == 'O'
     end
-    puts @sum_of_xs
     @sum_of_xs
   end
 
@@ -124,7 +114,6 @@ class Computer
       @comp_guess[3] = random_colour
     end
 
-
     case @sum_of_xs
     when 0
       @comp_guess[0] = @comp_guess[0]
@@ -151,7 +140,6 @@ class Computer
     @round += 1
     @comp_guess
   end
-
 end
 
 class Player
@@ -201,12 +189,12 @@ class RunLogic
   def select_mode
     puts 'Would you like to be the code maker or code guesser. Type maker/guesser'
     @mode = gets.chomp
-    if  @mode == 'maker'
-      @code_maker = true
-    end 
-    if @mode == 'guesser'
-      @code_guesser = true
-    end
+   if @mode == 'maker'
+    @code_maker = true 
+   end 
+   if @mode == 'guesser'
+    @code_guesser = true
+   end  
   end
 
   def round
